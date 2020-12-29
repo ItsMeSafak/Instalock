@@ -14,8 +14,10 @@
     <string name="region">Region</string>
     <string name="login">Log in</string>
 
-    <string-array name="spinner_regions">
-        <item>Tsdt</item>
-        <item>Tserereredt</item>
-    </string-array>
+    <string name="p_region">#%1$s</string>
+
+    <string name="p_matches">Matches</string>
+    <string name="p_champions">Champions</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

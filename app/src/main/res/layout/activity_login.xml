@@ -55,6 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:background="@drawable/shape_input"
         app:layout_constraintBottom_toBottomOf="@+id/et_summoner_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
