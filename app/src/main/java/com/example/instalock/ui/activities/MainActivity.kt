@@ -3,14 +3,17 @@ package com.example.instalock.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.example.instalock.R
 import com.example.instalock.utils.TabAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,69 +23,34 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
-//        initTabs()
-//
-//        try {
-//            summonerViewModel.getSummoner(intent.getStringExtra(KEY_SUMM_NAME)!!, intent.getStringExtra(KEY_REGION)!!)
-//            observe()
-//        } catch (ex: Exception) {
-//            finish()
-//        }
 
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.nav_open, R.string.nav_close)
+        drawer_layout.addDrawerListener(toggle)
+        nav_view.setCheckedItem(R.id.nav_profile)
+        nav_view.setNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_profile -> {
+
+                }
+                R.id.nav_champions -> {
+
+                }
+                R.id.nav_live_game -> {
+
+                }
+                R.id.nav_log_out -> {
+                    finish()
+                }
+            }
+            drawer_layout.closeDrawers()
+            true
+        }
+        toggle.syncState()
     }
-
-//    private fun observe() {
-//        summonerViewModel.summonerData.observe(this, Observer {
-//            GlobalScope.launch(Dispatchers.IO) {
-//                val url = it.profileIcon.image.url
-//                val summonerName = it.name
-//                val region = it.region.tag
-//                val level = it.level
-//                launch(Dispatchers.Main) {
-//                    pb_loading.visibility = View.INVISIBLE
-//                    Glide.with(this@MainActivity).load(url).into(iv_profile_icon)
-//                    tv_summoner_name.text = summonerName
-//                    tv_region.text = getString(R.string.p_region, region)
-//                    tv_level.text = level.toString()
-//                }
-//            }
-//        })
-//
-//        summonerViewModel.failed.observe(this, Observer {
-//            Snackbar.make(btn_login, it, Snackbar.LENGTH_LONG)
-//                .setBackgroundTint(getColor(R.color.colorRed))
-//                .show()
-//        })
-//
-//        summonerViewModel.succes.observe(this, Observer {
-//            val intent = Intent(this, MainActivity::class.java)
-//            if (it) startActivity(intent)
-//        })
-//    }
-
-//    private fun initTabs() {
-//        vp_content.adapter = TabAdapter(this, supportFragmentManager, tab_layout.tabCount)
-//        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                if (tab != null) {
-//                    vp_content.currentItem = tab.position
-//                }
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//                // Handle tab reselect
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//                // Handle tab unselect
-//            }
-//        })
-//    }
 }

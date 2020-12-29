@@ -5,21 +5,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_first_fragment"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_baseline_account_circle_24"
-            android:title="First" />
+            android:title="@string/profile" />
         <item
-            android:id="@+id/nav_second_fragment"
+            android:id="@+id/nav_champions"
             android:icon="@drawable/ic_baseline_android_24"
-            android:title="Second" />
+            android:title="@string/champions" />
         <item
-            android:id="@+id/nav_third_fragment"
+            android:id="@+id/nav_live_game"
             android:icon="@drawable/ic_baseline_videogame_asset_24"
-            android:title="Third" />
+            android:title="@string/live_game" />
 
         <item
-            android:id="@+id/nav_fourth_fragment"
+            android:id="@+id/nav_log_out"
             android:icon="@drawable/ic_baseline_exit_to_app_24"
-            android:title="Fourth" />
+            android:title="@string/log_out" />
     </group>
 </menu>

@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.internal.wait
 import java.lang.Exception
 
 class HomeFragment : Fragment() {
@@ -38,7 +39,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabs()
-
         try {
             summonerViewModel.getSummoner(activity?.intent?.getStringExtra(KEY_SUMM_NAME)!!, activity?.intent?.getStringExtra(KEY_REGION)!!)
             observe()
@@ -55,11 +55,11 @@ class HomeFragment : Fragment() {
                 val region = it.region.tag
                 val level = it.level
                 launch(Dispatchers.Main) {
-                    pb_loading.visibility = View.INVISIBLE
                     Glide.with(requireContext()).load(url).into(iv_profile_icon)
                     tv_summoner_name.text = summonerName
                     tv_region.text = getString(R.string.p_region, region)
                     tv_level.text = level.toString()
+                    pb_loading.visibility = View.INVISIBLE
                 }
             }
         })
