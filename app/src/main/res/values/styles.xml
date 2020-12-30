@@ -7,6 +7,9 @@
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="editTextStyle">@style/Inputbar</item>
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/colorGrey</item>
+
         <item name="buttonStyle">@style/Button</item>
         <item name="fontFamily">@font/font_righteous</item>
         <item name="android:spinnerItemStyle">@style/SpinnerDropdown</item>

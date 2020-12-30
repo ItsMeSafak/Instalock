@@ -29,4 +29,7 @@
     <string name="champions">Champions</string>
 
     <string name="loading">Loading...</string>
+
+    <string name="search_champions">Champion name</string>
+    <string name="search">Search</string>
 </resources>

@@ -8,4 +8,9 @@
         android:id="@+id/homeFragment"
         android:name="com.example.instalock.ui.fragments.HomeFragment"
         android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/allChampionsFragment"
+        android:name="com.example.instalock.ui.fragments.AllChampionsFragment"
+        android:label="fragment_all_champions"
+        tools:layout="@layout/fragment_all_champions" />
 </navigation>

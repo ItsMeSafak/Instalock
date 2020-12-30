@@ -30,16 +30,18 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.nav_open, R.string.nav_close)
-        drawer_layout.addDrawerListener(toggle)
+        floatingActionButton.setOnClickListener {
+            drawer_layout.open()
+        }
+
         nav_view.setCheckedItem(R.id.nav_profile)
         nav_view.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.nav_profile -> {
-
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.homeFragment)
                 }
                 R.id.nav_champions -> {
-
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.allChampionsFragment)
                 }
                 R.id.nav_live_game -> {
 
@@ -51,6 +53,5 @@ class MainActivity : AppCompatActivity(){
             drawer_layout.closeDrawers()
             true
         }
-        toggle.syncState()
     }
 }

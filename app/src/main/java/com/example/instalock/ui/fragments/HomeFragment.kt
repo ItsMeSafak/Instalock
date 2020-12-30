@@ -16,6 +16,7 @@ import com.example.instalock.utils.TabAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import com.merakianalytics.orianna.types.core.staticdata.Champion
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
@@ -54,6 +55,7 @@ class HomeFragment : Fragment() {
                 val summonerName = it.name
                 val region = it.region.tag
                 val level = it.level
+                SummonerViewModel.region = it.region
                 launch(Dispatchers.Main) {
                     Glide.with(requireContext()).load(url).into(iv_profile_icon)
                     tv_summoner_name.text = summonerName
