@@ -9,6 +9,7 @@ import com.example.instalock.data.Repository
 import com.example.instalock.exceptions.SummonerNotFound
 import com.merakianalytics.orianna.types.common.Region
 import com.merakianalytics.orianna.types.core.staticdata.Champion
+import com.merakianalytics.orianna.types.core.staticdata.ChampionSpell
 import com.merakianalytics.orianna.types.core.summoner.Summoner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -16,6 +17,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChampionViewModel(application: Application) : AndroidViewModel(application) {
+
+    companion object {
+        var currentName: String = "Aatrox"
+    }
 
     val repository = Repository()
     private val _championData: MutableLiveData<List<Champion>> = MutableLiveData()

@@ -1,23 +1,33 @@
 package com.example.instalock.utils
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.instalock.ui.fragments.ChampionsFragment
-import com.example.instalock.ui.fragments.MatchHistoryFragment
+import com.example.instalock.ui.fragments.*
 
-
-class TabAdapter(fm: FragmentManager?, private val totalTabs: Int) : FragmentPagerAdapter(fm!!) {
+class TabAdapter(private val currentFrag: Fragment, fm: FragmentManager?, private val totalTabs: Int) : FragmentPagerAdapter(fm!!) {
 
     override fun getItem(position: Int): Fragment {
-        return when (position) {
-            0 -> {
-                MatchHistoryFragment()
+        return when (currentFrag) {
+            is ChampionDetailFragment -> {
+                when (position) {
+                    0 -> {Log.d("CALLED", "HOI")
+                        COverviewFragment()
+                    }
+                    1 -> CAbilitiesFragment()
+                    2 -> CLoreFragment()
+                    else -> COverviewFragment()
+                }
             }
-            1 -> {
-                ChampionsFragment()
+            is HomeFragment -> {
+                when (position) {
+                    0 -> PMatchHistoryFragment()
+                    1 -> PChampionsFragment()
+                    else -> PMatchHistoryFragment()
+                }
             }
-            else -> MatchHistoryFragment()
+            else -> PChampionsFragment()
         }
     }
 

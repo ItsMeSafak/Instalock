@@ -90,8 +90,6 @@
         android:id="@+id/vp_content"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:nestedScrollingEnabled="false"
-        android:isScrollContainer="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

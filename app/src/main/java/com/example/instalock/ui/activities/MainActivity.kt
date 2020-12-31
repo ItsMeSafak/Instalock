@@ -30,9 +30,8 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        floatingActionButton.setOnClickListener {
-            drawer_layout.open()
-        }
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.nav_open, R.string.nav_close)
+        drawer_layout.addDrawerListener(toggle)
 
         nav_view.setCheckedItem(R.id.nav_profile)
         nav_view.setNavigationItemSelectedListener {
@@ -53,5 +52,6 @@ class MainActivity : AppCompatActivity(){
             drawer_layout.closeDrawers()
             true
         }
+        toggle.syncState()
     }
 }

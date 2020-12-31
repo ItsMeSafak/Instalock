@@ -29,7 +29,6 @@ class AllChampionsAdapter(private val listOfChampions: ArrayList<Champion>, priv
                 launch(Dispatchers.Main) {
                     Glide.with(itemView.context).load(iconUrl).into(itemView.iv_champion_icon)
                     itemView.tv_champion_name.text = championName
-
                     itemView.setOnClickListener {
                         onClick(championName)
                     }

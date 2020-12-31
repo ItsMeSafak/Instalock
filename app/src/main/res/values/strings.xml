@@ -19,6 +19,10 @@
     <string name="p_matches">Matches</string>
     <string name="p_champions">Champions</string>
 
+    <string name="c_overview">Overview</string>
+    <string name="c_abilities">Abilities</string>
+    <string name="c_lore">Lore</string>
+
     <string name="nav_open">Open navigation</string>
     <string name="nav_close">Close navigation</string>
 
@@ -32,6 +36,14 @@
 
     <string name="search_champions">Champion name</string>
     <string name="search">Search</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="champion_full">%1$s, %2$s</string>
+    <string name="ability_full">%1$s: %2$s</string>
+
+    <string name="c_rating_physical">Physical:</string>
+    <string name="c_rating_magic">Magic:</string>
+    <string name="c_rating_defence">Defence:</string>
+    <string name="c_rating_difficulty">Difficulty:</string>
+
+
 </resources>

@@ -16,13 +16,11 @@ import com.example.instalock.utils.TabAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import com.merakianalytics.orianna.types.core.staticdata.Champion
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 import java.lang.Exception
 
 class HomeFragment : Fragment() {
@@ -74,7 +72,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initTabs() {
-        vp_content.adapter = TabAdapter(activity?.supportFragmentManager, tab_layout.tabCount)
+        vp_content.adapter = TabAdapter(this, activity?.supportFragmentManager, tab_layout.tabCount)
         tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -93,4 +91,8 @@ class HomeFragment : Fragment() {
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+    }
 }
