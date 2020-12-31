@@ -13,4 +13,9 @@
         android:name="com.example.instalock.ui.fragments.AllChampionsFragment"
         android:label="fragment_all_champions"
         tools:layout="@layout/fragment_all_champions" />
+    <fragment
+        android:id="@+id/championDetailFragment"
+        android:name="com.example.instalock.ui.fragments.ChampionDetailFragment"
+        android:label="fragment_champion_detail"
+        tools:layout="@layout/fragment_champion_detail" />
 </navigation>

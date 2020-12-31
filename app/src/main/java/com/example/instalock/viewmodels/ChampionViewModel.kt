@@ -22,6 +22,10 @@ class ChampionViewModel(application: Application) : AndroidViewModel(application
     val championData: LiveData<List<Champion>>
         get() = _championData
 
+    private val _detailChampionData: MutableLiveData<Champion> = MutableLiveData()
+    val detailChampionData: LiveData<Champion>
+        get() = _detailChampionData
+
     private var _succes: MutableLiveData<Boolean> = MutableLiveData()
     val succes: LiveData<Boolean>
         get() = _succes
@@ -34,6 +38,16 @@ class ChampionViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 _championData.value = repository.getChampions()
+                _succes.value = true
+                //if (summonerData.value == null) throw SummonerNotFound("Couldn't find the summoner you were looking for")
+            }
+        }
+    }
+
+    fun getDetailChampion(championName: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                _detailChampionData.value = repository.getDetailChampion(championName)
                 _succes.value = true
                 //if (summonerData.value == null) throw SummonerNotFound("Couldn't find the summoner you were looking for")
             }

@@ -2,6 +2,7 @@ package com.example.instalock.data
 
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.merakianalytics.orianna.types.common.Region
+import com.merakianalytics.orianna.types.core.champion.ChampionRotation.withRegion
 import com.merakianalytics.orianna.types.core.staticdata.Champion
 import com.merakianalytics.orianna.types.core.staticdata.Champions
 import com.merakianalytics.orianna.types.core.summoner.Summoner
@@ -20,6 +21,12 @@ class Repository {
         return withContext(Dispatchers.IO) {
             Champions
                 .withRegion(SummonerViewModel.region).get()
+        }
+    }
+
+    suspend fun getDetailChampion(championName: String): Champion {
+        return withContext(Dispatchers.IO) {
+            Champion.named(championName).withRegion(SummonerViewModel.region).get()
         }
     }
 }
