@@ -7,14 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.instalock.R
 import com.example.instalock.utils.AbilityAdapter
 import com.example.instalock.viewmodels.ChampionViewModel
 import com.merakianalytics.orianna.types.core.staticdata.ChampionSpell
 import kotlinx.android.synthetic.main.fragment_c_abilities.*
-import kotlinx.android.synthetic.main.item_ability.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -24,7 +23,6 @@ class CAbilitiesFragment : Fragment() {
     private val championViewModel: ChampionViewModel by activityViewModels()
     private val listOfAbilities: ArrayList<ChampionSpell> = arrayListOf()
     private val adapter: AbilityAdapter = AbilityAdapter(listOfAbilities)
-    private val passive: String = "Passive"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +41,8 @@ class CAbilitiesFragment : Fragment() {
     private fun initView() {
         rv_abilities.adapter = adapter
         rv_abilities.layoutManager = LinearLayoutManager(requireContext(),  LinearLayoutManager.VERTICAL, false)
+        rv_abilities.addItemDecoration(DividerItemDecoration(rv_abilities.context, DividerItemDecoration.VERTICAL))
+
     }
 
     private fun observe() {

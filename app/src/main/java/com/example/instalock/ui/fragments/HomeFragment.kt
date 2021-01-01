@@ -54,6 +54,7 @@ class HomeFragment : Fragment() {
                 val region = it.region.tag
                 val level = it.level
                 SummonerViewModel.region = it.region
+                SummonerViewModel.summonerName = it.name
                 launch(Dispatchers.Main) {
                     Glide.with(requireContext()).load(url).into(iv_profile_icon)
                     tv_summoner_name.text = summonerName

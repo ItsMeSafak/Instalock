@@ -1,12 +1,7 @@
 package com.example.instalock.utils
 
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instalock.R
 import com.example.instalock.exceptions.FilterError
@@ -19,44 +14,32 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AllChampionsAdapter(private val listOfChampions: ArrayList<Champion>, private val onClick: (championName: String) -> Unit): RecyclerView.Adapter<AllChampionsAdapter.ViewHolder>(), Filterable {
+class AllChampionsAdapter(private val listOfChampions: ArrayList<Champion>, private val onClick: (championName: String) -> Unit): GenericRVAdapter<Champion>(listOfChampions), Filterable {
 
     private lateinit var finalList: ArrayList<Champion>
     var runOnce = true
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        fun bind(champion: Champion) {
-            GlobalScope.launch(Dispatchers.IO) {
-                val iconUrl = champion.image.url
-                val championName = champion.name
-                launch(Dispatchers.Main) {
-                    Glide.with(itemView.context).load(iconUrl).into(itemView.iv_champion_icon)
-                    itemView.tv_champion_name.text = championName
-                    itemView.setOnClickListener {
-                        onClick(championName)
-                    }
+    override fun bind(item: Champion, viewHolder: GenericRVAdapter<Champion>.ViewHolder) {
+        GlobalScope.launch(Dispatchers.IO) {
+            if (listOfChampions.count() > 0 && runOnce) {
+                finalList = ArrayList(listOfChampions)
+                runOnce = false
+            }
+
+            val iconUrl = item.image.url
+            val championName = item.name
+            launch(Dispatchers.Main) {
+                Glide.with(viewHolder.itemView.context).load(iconUrl).into(viewHolder.itemView.iv_champion_icon)
+                viewHolder.itemView.tv_champion_name.text = championName
+                viewHolder.itemView.setOnClickListener {
+                    onClick(championName)
                 }
             }
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): AllChampionsAdapter.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_champion, parent,false))
-    }
-
-    override fun getItemCount(): Int {
-        return listOfChampions.count()
-    }
-
-    override fun onBindViewHolder(holder: AllChampionsAdapter.ViewHolder, position: Int) {
-        if (listOfChampions.count() > 0 && runOnce) {
-            finalList = ArrayList(listOfChampions)
-            runOnce = false
-        }
-        holder.bind(listOfChampions[position])
+    override fun getItemViewType(position: Int): Int {
+        return R.layout.item_champion
     }
 
     override fun getFilter(): Filter {

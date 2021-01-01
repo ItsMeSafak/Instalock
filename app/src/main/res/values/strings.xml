@@ -33,7 +33,7 @@
     <string name="live_game">Live game</string>
     <string name="champions">Champions</string>
 
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
 
     <string name="search_champions">Champion name</string>
     <string name="search">Search</string>
@@ -41,10 +41,14 @@
     <string name="champion_full">%1$s, %2$s</string>
     <string name="ability_full">%1$s: %2$s</string>
 
+    <string name="champ_level">Level: %1$s</string>
+    <string name="champ_points">Points: %1$s</string>
+
     <string name="c_rating_physical">Physical:</string>
     <string name="c_rating_magic">Magic:</string>
     <string name="c_rating_defence">Defence:</string>
     <string name="c_rating_difficulty">Difficulty:</string>
 
-
+    <string name="no_mastery">Seems like you dont have any masteries.</string>
+    <string name="no_matches">Seems like you dont have any masteries.</string>
 </resources>
