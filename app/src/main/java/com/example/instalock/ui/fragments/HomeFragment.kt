@@ -15,7 +15,7 @@ import com.example.instalock.ui.activities.KEY_SUMM_NAME
 import com.example.instalock.utils.TabAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
@@ -72,27 +72,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun initTabs() {
-        vp_content.adapter = TabAdapter(this, activity?.supportFragmentManager, tab_layout.tabCount)
-        tab_layout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (tab != null) {
-                    vp_content.currentItem = tab.position
+        vp_content.adapter = TabAdapter(this, requireActivity(), tab_layout.tabCount)
+        val mediator = TabLayoutMediator(tab_layout, vp_content,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                when (position) {
+                    0 -> {
+                        tab.text = getString(R.string.p_matches)
+                    }
+                    1 -> {
+                        tab.text = getString(R.string.p_champions)
+                    }
                 }
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-                // Handle tab reselect
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // Handle tab unselect
-            }
-        })
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
+            })
+        mediator.attach()
     }
 }

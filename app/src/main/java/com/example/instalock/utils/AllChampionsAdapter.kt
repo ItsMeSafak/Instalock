@@ -1,5 +1,6 @@
 package com.example.instalock.utils
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,13 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.instalock.R
+import com.example.instalock.exceptions.FilterError
 import com.merakianalytics.orianna.types.core.staticdata.Champion
 import kotlinx.android.synthetic.main.item_champion.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -79,11 +82,14 @@ class AllChampionsAdapter(private val listOfChampions: ArrayList<Champion>, priv
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                listOfChampions.clear()
-                listOfChampions.addAll(results?.values as List<Champion>)
-                notifyDataSetChanged()
+                try {
+                    listOfChampions.clear()
+                    listOfChampions.addAll(results?.values as List<Champion>)
+                    notifyDataSetChanged()
+                } catch (ex: Exception) {
+                    throw FilterError("Oops! Something went wrong filtering the data...")
+                }
             }
-
         }
     }
 }

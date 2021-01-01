@@ -28,6 +28,7 @@
 
     <string name="page_profile">Profile</string>
     <string name="profile">Profile</string>
+    <string name="back">Go back</string>
     <string name="log_out">Log out</string>
     <string name="live_game">Live game</string>
     <string name="champions">Champions</string>
