@@ -51,4 +51,17 @@
 
     <string name="no_mastery">Seems like you dont have any masteries.</string>
     <string name="no_matches">Seems like you dont have any masteries.</string>
+
+    <string name="special_udyr">Udyr</string>
+    <string name="special_jhin">Jhin</string>
+    <string name="special_warwick">Warwick</string>
+    <string name="special_neeko">Neeko</string>
+    <string name="special_mordekaiser">Mordekaiser</string>
+    <string-array name="special_snowflakes">
+        <item>@string/special_udyr</item>
+        <item>@string/special_jhin</item>
+        <item>@string/special_neeko</item>
+        <item>@string/special_warwick</item>
+        <item>@string/special_mordekaiser</item>
+    </string-array>
 </resources>
