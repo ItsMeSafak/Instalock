@@ -6,17 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instalock.R
+import com.example.instalock.utils.MyMatchHistoryAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.merakianalytics.orianna.types.core.match.Match
-import com.merakianalytics.orianna.types.core.championmastery.ChampionMasteries;
+import kotlinx.android.synthetic.main.fragment_p_match_history.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class PMatchHistoryFragment : Fragment() {
 
     private val summonerViewModel: SummonerViewModel by activityViewModels()
-    private val listOfMatches: ArrayList<List<Match>> = arrayListOf()
-//    private val adapter: AbilityAdapter = AbilityAdapter(listOfAbilities)
+    private val listOfMatches: ArrayList<Match> = arrayListOf()
+    private val adapter: MyMatchHistoryAdapter = MyMatchHistoryAdapter(listOfMatches)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +33,34 @@ class PMatchHistoryFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_p_match_history, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        observe()
+    }
 
+    private fun initView() {
+        rv_matches.adapter = adapter
+        rv_matches.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+    }
 
+    private fun observe() {
+        summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
+            summonerViewModel.getMatches(it)
+        })
+        summonerViewModel.matchData.observe(viewLifecycleOwner, Observer {
+            GlobalScope.launch(Dispatchers.IO) {
+                listOfMatches.clear()
+                listOfMatches.addAll(it)
+                launch(Dispatchers.Main) {
+                    adapter.notifyDataSetChanged()
+                    pb_loading_matches.visibility = View.INVISIBLE
+                    if (listOfMatches.count() <= 0) {
+                        Snackbar.make(rv_matches, R.string.no_matches, Snackbar.LENGTH_LONG).show()
+                    }
+                }
+            }
+        })
+    }
 
 }

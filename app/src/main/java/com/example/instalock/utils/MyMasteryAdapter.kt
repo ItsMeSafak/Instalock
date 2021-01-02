@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 
 class MyMasteryAdapter(listOfChampions: ArrayList<ChampionMastery>) :
     GenericRVAdapter<ChampionMastery>(listOfChampions) {
@@ -17,7 +18,8 @@ class MyMasteryAdapter(listOfChampions: ArrayList<ChampionMastery>) :
                 val imageUrl = item.champion.skins[0].splashImageURL
                 val championName = item.champion.name
                 val level = item.level
-                val points = item.points
+                val decimalFormat = DecimalFormat("###,###,###")
+                val points = decimalFormat.format(item.points)
                 launch(Dispatchers.Main) {
                     Glide.with(viewHolder.itemView.context).load(imageUrl)
                         .into(viewHolder.itemView.iv_card_c_icon)

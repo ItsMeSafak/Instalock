@@ -3,25 +3,10 @@ package com.example.instalock.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import com.bumptech.glide.Glide
 import com.example.instalock.R
-import com.example.instalock.utils.TabAdapter
-import com.example.instalock.viewmodels.SummonerViewModel
-import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity(){
 
@@ -46,7 +31,8 @@ class MainActivity : AppCompatActivity(){
 
                 }
                 R.id.nav_log_out -> {
-                    finish()
+                    finishAffinity()
+                    startActivity(Intent(this, LoginActivity::class.java))
                 }
             }
             drawer_layout.closeDrawers()

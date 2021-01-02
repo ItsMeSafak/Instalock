@@ -6,13 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.instalock.data.Repository
-import com.example.instalock.exceptions.SummonerNotFound
-import com.merakianalytics.orianna.types.common.Region
+import com.example.instalock.exceptions.FetchingChampionsFailed
 import com.merakianalytics.orianna.types.core.staticdata.Champion
-import com.merakianalytics.orianna.types.core.staticdata.ChampionSpell
-import com.merakianalytics.orianna.types.core.summoner.Summoner
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -31,10 +27,6 @@ class ChampionViewModel(application: Application) : AndroidViewModel(application
     val detailChampionData: LiveData<Champion>
         get() = _detailChampionData
 
-    private var _succes: MutableLiveData<Boolean> = MutableLiveData()
-    val succes: LiveData<Boolean>
-        get() = _succes
-
     private var _failed: MutableLiveData<String> = MutableLiveData()
     val failed: LiveData<String>
         get() = _failed
@@ -44,8 +36,7 @@ class ChampionViewModel(application: Application) : AndroidViewModel(application
             withContext(Dispatchers.Main){
                 try {
                     _championData.value = repository.getChampions()
-                    _succes.value = true
-                } catch (ex: Exception) {
+                } catch (ex: FetchingChampionsFailed) {
                     _failed.value = ex.message
                 }
             }
@@ -56,8 +47,6 @@ class ChampionViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 _detailChampionData.value = repository.getDetailChampion(championName)
-                _succes.value = true
-                //if (summonerData.value == null) throw SummonerNotFound("Couldn't find the summoner you were looking for")
             }
         }
     }

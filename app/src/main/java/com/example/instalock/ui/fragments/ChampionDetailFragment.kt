@@ -34,7 +34,7 @@ class ChampionDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setFragmentResultListener(KEY_REQUEST) { key, bundle ->
+        setFragmentResultListener(KEY_REQUEST) { _, bundle ->
             observe(bundle.getString(KEY_BUNDLE)!!)
             ChampionViewModel.currentName = bundle.getString(KEY_BUNDLE)!!
         }

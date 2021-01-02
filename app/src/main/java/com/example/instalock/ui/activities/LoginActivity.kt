@@ -2,6 +2,8 @@ package com.example.instalock.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +16,6 @@ import com.merakianalytics.orianna.Orianna
 import com.merakianalytics.orianna.types.common.Region
 import kotlinx.android.synthetic.main.activity_login.*
 import java.lang.Exception
-
 
 const val KEY_SUMM_NAME = "KEY_SUMM_NAME"
 const val KEY_REGION = "KEY_REGION"
@@ -39,30 +40,47 @@ class LoginActivity : AppCompatActivity() {
         et_region.adapter = arrayAdapter
 
         btn_login.setOnClickListener {
+            pb_searching.visibility = View.VISIBLE
+            iv_heimerdonger.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation))
             if (et_summoner_name.text.isNotBlank()) {
                 try {
-                    summonerViewModel.getSummoner(et_summoner_name.text.toString(), et_region.selectedItem.toString())
+                    summonerViewModel.getSummoner(
+                        et_summoner_name.text.toString(),
+                        et_region.selectedItem.toString()
+                    )
                 } catch (ex: Exception) {
                     ex.printStackTrace()
                 }
             } else {
+                clearSearching()
                 Snackbar.make(btn_login, "Please fill in your summoner name", Snackbar.LENGTH_LONG)
                     .show()
             }
-
-            summonerViewModel.failed.observe(this, Observer {
-                Snackbar.make(btn_login, it, Snackbar.LENGTH_LONG)
-                    .show()
-            })
-
-            summonerViewModel.succes.observe(this, Observer {
-                if (it) {
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra(KEY_SUMM_NAME, et_summoner_name.text.toString())
-                    intent.putExtra(KEY_REGION, et_region.selectedItem.toString())
-                    startActivity(intent)
-                }
-            })
         }
+
+        summonerViewModel.failed.observe(this, Observer {
+            clearSearching()
+            Snackbar.make(btn_login, it, Snackbar.LENGTH_LONG)
+                .show()
+        })
+
+        summonerViewModel.succes.observe(this, Observer {
+            if (it) {
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra(KEY_SUMM_NAME, et_summoner_name.text.toString())
+                intent.putExtra(KEY_REGION, et_region.selectedItem.toString())
+                startActivity(intent)
+            }
+        })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        clearSearching()
+    }
+
+    private fun clearSearching() {
+        pb_searching.visibility = View.INVISIBLE
+        iv_heimerdonger.clearAnimation()
     }
 }

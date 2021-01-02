@@ -16,8 +16,7 @@ import com.example.instalock.utils.TabAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_home.*
+ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -66,7 +65,7 @@ class HomeFragment : Fragment() {
         })
 
         summonerViewModel.failed.observe(viewLifecycleOwner, Observer {
-            Snackbar.make(btn_login, it, Snackbar.LENGTH_LONG)
+            Snackbar.make(iv_profile_icon, it, Snackbar.LENGTH_LONG)
                 .setBackgroundTint(getColor(requireContext(), R.color.colorRed))
                 .show()
         })

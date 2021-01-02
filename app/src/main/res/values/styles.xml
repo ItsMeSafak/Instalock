@@ -31,6 +31,8 @@
     <style name="Button" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/shape_button</item>
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
     <style name="SpinnerItem" parent="@android:style/Widget.Spinner">

@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import com.example.instalock.R
 import com.example.instalock.viewmodels.ChampionViewModel
 import kotlinx.android.synthetic.main.fragment_c_lore.*
-import kotlinx.android.synthetic.main.fragment_c_overview.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

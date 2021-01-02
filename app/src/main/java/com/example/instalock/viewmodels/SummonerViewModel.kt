@@ -1,7 +1,6 @@
 package com.example.instalock.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,11 +9,11 @@ import com.example.instalock.data.Repository
 import com.example.instalock.exceptions.SummonerNotFound
 import com.merakianalytics.orianna.types.common.Region
 import com.merakianalytics.orianna.types.core.championmastery.ChampionMastery
+import com.merakianalytics.orianna.types.core.match.Match
 import com.merakianalytics.orianna.types.core.summoner.Summoner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 
 class SummonerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -32,6 +31,10 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
     val masteryData: LiveData<List<ChampionMastery>>
         get() = _masteryData
 
+    private val _matchData: MutableLiveData<List<Match>> = MutableLiveData()
+    val matchData: LiveData<List<Match>>
+        get() = _matchData
+
     private var _succes: MutableLiveData<Boolean> = MutableLiveData()
     val succes: LiveData<Boolean>
         get() = _succes
@@ -46,7 +49,7 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
                 try {
                     _summonerData.value = repository.getSummoner(summonerName, regionName)
                     _succes.value = true
-                } catch (ex: Exception) {
+                } catch (ex: SummonerNotFound) {
                     _failed.value = ex.message
                 }
             }
@@ -57,6 +60,15 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 _masteryData.value = repository.getMasteries(summoner)
+                _succes.value = true
+            }
+        }
+    }
+
+    fun getMatches(summoner: Summoner) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                _matchData.value = repository.getMatches(summoner)
                 _succes.value = true
             }
         }
