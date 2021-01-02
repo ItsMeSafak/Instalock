@@ -42,9 +42,12 @@ class ChampionViewModel(application: Application) : AndroidViewModel(application
     fun getChampions() {
         viewModelScope.launch {
             withContext(Dispatchers.Main){
-                _championData.value = repository.getChampions()
-                _succes.value = true
-                //if (summonerData.value == null) throw SummonerNotFound("Couldn't find the summoner you were looking for")
+                try {
+                    _championData.value = repository.getChampions()
+                    _succes.value = true
+                } catch (ex: Exception) {
+                    _failed.value = ex.message
+                }
             }
         }
     }

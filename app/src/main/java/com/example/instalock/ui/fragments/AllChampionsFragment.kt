@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.instalock.R
 import com.example.instalock.utils.AllChampionsAdapter
 import com.example.instalock.viewmodels.ChampionViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.merakianalytics.orianna.types.core.staticdata.Champion
 import kotlinx.android.synthetic.main.fragment_all_champions.*
 import kotlinx.coroutines.Dispatchers
@@ -72,6 +73,10 @@ class AllChampionsFragment : Fragment() {
                     pb_loading.visibility = View.INVISIBLE
                 }
             }
+        })
+
+        championViewModel.failed.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(search_champion, it, Snackbar.LENGTH_LONG).show()
         })
     }
 

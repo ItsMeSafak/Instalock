@@ -14,25 +14,31 @@ import java.lang.Exception
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AllChampionsAdapter(private val listOfChampions: ArrayList<Champion>, private val onClick: (championName: String) -> Unit): GenericRVAdapter<Champion>(listOfChampions), Filterable {
+class AllChampionsAdapter(
+    private val listOfChampions: ArrayList<Champion>,
+    private val onClick: (championName: String) -> Unit
+) : GenericRVAdapter<Champion>(listOfChampions), Filterable {
 
     private lateinit var finalList: ArrayList<Champion>
     var runOnce = true
 
-    override fun bind(item: Champion, viewHolder: GenericRVAdapter<Champion>.ViewHolder) {
+    override fun bind(item: Champion?, viewHolder: GenericRVAdapter<Champion>.ViewHolder) {
         GlobalScope.launch(Dispatchers.IO) {
             if (listOfChampions.count() > 0 && runOnce) {
                 finalList = ArrayList(listOfChampions)
                 runOnce = false
             }
 
-            val iconUrl = item.image.url
-            val championName = item.name
-            launch(Dispatchers.Main) {
-                Glide.with(viewHolder.itemView.context).load(iconUrl).into(viewHolder.itemView.iv_champion_icon)
-                viewHolder.itemView.tv_champion_name.text = championName
-                viewHolder.itemView.setOnClickListener {
-                    onClick(championName)
+            item?.let {
+                val iconUrl = item.image?.url
+                val championName = item.name
+                launch(Dispatchers.Main) {
+                    Glide.with(viewHolder.itemView.context).load(iconUrl)
+                        .into(viewHolder.itemView.iv_champion_icon)
+                    viewHolder.itemView.tv_champion_name.text = championName
+                    viewHolder.itemView.setOnClickListener {
+                        championName?.let { it1 -> onClick(it1) }
+                    }
                 }
             }
         }

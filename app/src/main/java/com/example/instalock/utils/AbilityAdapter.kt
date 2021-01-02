@@ -12,15 +12,17 @@ import kotlin.collections.ArrayList
 class AbilityAdapter(listOfAbilities: ArrayList<ChampionSpell>): GenericRVAdapter<ChampionSpell>(listOfAbilities) {
     private val abilityKeys = listOf("Q", "W", "E", "Ultimate")
 
-    override fun bind(item: ChampionSpell, viewHolder: GenericRVAdapter<ChampionSpell>.ViewHolder) {
+    override fun bind(item: ChampionSpell?, viewHolder: GenericRVAdapter<ChampionSpell>.ViewHolder) {
         GlobalScope.launch(Dispatchers.IO) {
-            val iconUrl = item.image.url
-            val title = viewHolder.itemView.resources.getString(R.string.ability_full, abilityKeys[viewHolder.adapterPosition], item.name)
-            val desc = item.description
-            launch(Dispatchers.Main) {
-                Glide.with(viewHolder.itemView.context).load(iconUrl).into(viewHolder.itemView.iv_ability_sprite)
-                viewHolder.itemView.tv_ability_title.text = title
-                viewHolder.itemView.tv_ability_desc.text = desc
+            item?.let {
+                val iconUrl = item.image?.url
+                val title = viewHolder.itemView.resources.getString(R.string.ability_full, abilityKeys[viewHolder.adapterPosition], item.name)
+                val desc = item.description
+                launch(Dispatchers.Main) {
+                    Glide.with(viewHolder.itemView.context).load(iconUrl).into(viewHolder.itemView.iv_ability_sprite)
+                    viewHolder.itemView.tv_ability_title.text = title
+                    viewHolder.itemView.tv_ability_desc.text = desc
+                }
             }
         }
     }

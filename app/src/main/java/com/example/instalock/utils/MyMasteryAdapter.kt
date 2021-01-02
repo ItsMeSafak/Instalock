@@ -11,23 +11,28 @@ import kotlinx.coroutines.launch
 class MyMasteryAdapter(listOfChampions: ArrayList<ChampionMastery>) :
     GenericRVAdapter<ChampionMastery>(listOfChampions) {
 
-    override fun bind(item: ChampionMastery, viewHolder: ViewHolder) {
+    override fun bind(item: ChampionMastery?, viewHolder: ViewHolder) {
         GlobalScope.launch(Dispatchers.IO) {
-            val imageUrl = item.champion.skins[0].splashImageURL
-            val championName = item.champion.name
-            val level = item.level
-            val points = item.points
-
-            launch(Dispatchers.Main) {
-                Glide.with(viewHolder.itemView.context).load(imageUrl)
-                    .into(viewHolder.itemView.iv_card_c_icon)
-                viewHolder.itemView.tv_card_champion.text = championName
-                viewHolder.itemView.tv_card_second.text =
-                    viewHolder.itemView.resources.getString(R.string.champ_level, level.toString())
-                viewHolder.itemView.tv_card_third.text = viewHolder.itemView.resources.getString(
-                    R.string.champ_points,
-                    points.toString()
-                )
+            item?.let {
+                val imageUrl = item.champion.skins[0].splashImageURL
+                val championName = item.champion.name
+                val level = item.level
+                val points = item.points
+                launch(Dispatchers.Main) {
+                    Glide.with(viewHolder.itemView.context).load(imageUrl)
+                        .into(viewHolder.itemView.iv_card_c_icon)
+                    viewHolder.itemView.tv_card_champion.text = championName
+                    viewHolder.itemView.tv_card_second.text =
+                        viewHolder.itemView.resources.getString(
+                            R.string.champ_level,
+                            level.toString()
+                        )
+                    viewHolder.itemView.tv_card_third.text =
+                        viewHolder.itemView.resources.getString(
+                            R.string.champ_points,
+                            points.toString()
+                        )
+                }
             }
         }
     }

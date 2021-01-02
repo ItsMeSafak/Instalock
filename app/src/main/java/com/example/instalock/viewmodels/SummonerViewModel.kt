@@ -14,6 +14,7 @@ import com.merakianalytics.orianna.types.core.summoner.Summoner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class SummonerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -42,9 +43,12 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
     fun getSummoner(summonerName: String, regionName: String) {
         viewModelScope.launch {
             withContext(Dispatchers.Main){
-                _summonerData.value = repository.getSummoner(summonerName, regionName)
-                _succes.value = true
-                if (summonerData.value == null) throw SummonerNotFound("Couldn't find the summoner you were looking for")
+                try {
+                    _summonerData.value = repository.getSummoner(summonerName, regionName)
+                    _succes.value = true
+                } catch (ex: Exception) {
+                    _failed.value = ex.message
+                }
             }
         }
     }
@@ -54,7 +58,6 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
             withContext(Dispatchers.Main){
                 _masteryData.value = repository.getMasteries(summoner)
                 _succes.value = true
-//                if (summonerData.value == null) throw SummonerNotFound("Couldn't find the summoner you were looking for")
             }
         }
     }

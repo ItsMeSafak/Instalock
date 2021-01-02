@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class GenericRVAdapter<T> (private var list: ArrayList<T>): RecyclerView.Adapter<GenericRVAdapter<T>.ViewHolder>() {
 
-    abstract fun bind(item: T, viewHolder: ViewHolder)
+    abstract fun bind(item: T?, viewHolder: ViewHolder)
 
     inner class ViewHolder(itemview: View): RecyclerView.ViewHolder(itemview)
 
