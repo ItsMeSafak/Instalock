@@ -1,16 +1,16 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@color/colorBackground</item>
         <item name="android:textColor">@color/colorWhite</item>
-        <item name="editTextStyle">@style/Inputbar</item>
+<!--        <item name="textInputStyle">@style/Inputbar</item>-->
         <item name="android:textColorPrimary">@color/colorWhite</item>
         <item name="android:textColorHint">@color/colorGrey</item>
 
-        <item name="buttonStyle">@style/Button</item>
+<!--        <item name="materialButtonStyle">@style/Button</item>-->
         <item name="fontFamily">@font/font_righteous</item>
         <item name="android:spinnerItemStyle">@style/SpinnerDropdown</item>
     </style>
@@ -20,7 +20,7 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Inputbar" parent="@android:style/Widget.EditText">
+    <style name="Inputbar" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
         <item name="android:background">@drawable/shape_input</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:paddingHorizontal">20dp</item>
@@ -28,9 +28,9 @@
         <item name="android:textColorHint">@color/colorGrey</item>
     </style>
 
-    <style name="Button" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/shape_button</item>
+    <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">@color/colorWhite</item>
+        <item name="colorPrimary">@color/colorAccent</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>

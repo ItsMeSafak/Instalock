@@ -18,4 +18,9 @@
         android:name="com.example.instalock.ui.fragments.ChampionDetailFragment"
         android:label="fragment_champion_detail"
         tools:layout="@layout/fragment_champion_detail" />
+    <fragment
+        android:id="@+id/liveGameFragment"
+        android:name="com.example.instalock.ui.fragments.LiveGameFragment"
+        android:label="fragment_live_game"
+        tools:layout="@layout/fragment_live_game" />
 </navigation>

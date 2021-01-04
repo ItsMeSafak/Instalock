@@ -48,14 +48,14 @@ class HomeFragment : Fragment() {
     private fun observe() {
         summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
             GlobalScope.launch(Dispatchers.IO) {
-                val url = it.profileIcon.image.url
-                val summonerName = it.name
+                val summonerName = it.coreData.name
                 val region = it.region.tag
                 val level = it.level
                 SummonerViewModel.region = it.region
                 SummonerViewModel.summonerName = it.name
+                SummonerViewModel.summonerId = it.id
                 launch(Dispatchers.Main) {
-                    Glide.with(requireContext()).load(url).into(iv_profile_icon)
+                    Glide.with(requireContext()).load(it.profileIcon.coreData.image.full).into(iv_profile_icon)
                     tv_summoner_name.text = summonerName
                     tv_region.text = getString(R.string.p_region, region)
                     tv_level.text = level.toString()

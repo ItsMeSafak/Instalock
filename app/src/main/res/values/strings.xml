@@ -54,6 +54,14 @@
 
     <string name="no_mastery">Seems like you dont have any masteries.</string>
     <string name="no_matches">Seems like you dont have any matches.</string>
+    <string name="no_live">Seems like youre not in a game..</string>
 
     <string name="kda">%1$s / %2$s / %3$s</string>
+
+    <string name="you">You are playing</string>
+    <string name="your_team">Your team</string>
+    <string name="enemy_team">Enemy team</string>
+
+    <string name="refresh">Refresh</string>
+    <string name="tips">Tips:</string>
 </resources>

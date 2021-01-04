@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.instalock.data.Repository
 import com.example.instalock.exceptions.SummonerNotFound
+import com.example.instalock.models.MyObject
 import com.merakianalytics.orianna.types.common.Region
 import com.merakianalytics.orianna.types.core.championmastery.ChampionMastery
 import com.merakianalytics.orianna.types.core.match.Match
@@ -20,12 +21,17 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
     companion object {
         var region: Region? = null
         var summonerName: String? = null
+        var summonerId: String? = null
     }
 
     val repository = Repository()
     private val _summonerData: MutableLiveData<Summoner> = MutableLiveData()
     val summonerData: LiveData<Summoner>
         get() = _summonerData
+
+    private val _summonerData2: MutableLiveData<MyObject> = MutableLiveData()
+    val summonerData2: LiveData<MyObject>
+        get() = _summonerData2
 
     private val _masteryData: MutableLiveData<List<ChampionMastery>> = MutableLiveData()
     val masteryData: LiveData<List<ChampionMastery>>
@@ -49,6 +55,18 @@ class SummonerViewModel(application: Application) : AndroidViewModel(application
                 try {
                     _summonerData.value = repository.getSummoner(summonerName, regionName)
                     _succes.value = true
+                } catch (ex: SummonerNotFound) {
+                    _failed.value = ex.message
+                }
+            }
+        }
+    }
+
+    fun getSummoner2(summonerName: String, regionName: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.Main){
+                try {
+                    _summonerData2.value = repository.getSummoner2(summonerName, regionName)
                 } catch (ex: SummonerNotFound) {
                     _failed.value = ex.message
                 }

@@ -32,21 +32,26 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initView() {
-        val arrayAdapter = ArrayAdapter<String>(
-            this,
-            R.layout.spinner_item_selected,
-            Region.values().map { it.tag })
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_item)
-        et_region.adapter = arrayAdapter
+        var selectedItem = "nothing"
+        et_region_tv.setAdapter(
+            ArrayAdapter<String>(
+                this,
+                R.layout.spinner_item_selected,
+                Region.values().map { it.tag })
+        )
+
+        et_region_tv.setOnItemClickListener { parent, _, position, _ ->
+            selectedItem = parent.getItemAtPosition(position) as String
+        }
 
         btn_login.setOnClickListener {
             pb_searching.visibility = View.VISIBLE
             iv_heimerdonger.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation))
-            if (et_summoner_name.text.isNotBlank()) {
+            if (et_summoner_name.text.isNotBlank() && selectedItem != "nothing") {
                 try {
                     summonerViewModel.getSummoner(
                         et_summoner_name.text.toString(),
-                        et_region.selectedItem.toString()
+                        selectedItem
                     )
                 } catch (ex: Exception) {
                     ex.printStackTrace()
@@ -68,7 +73,7 @@ class LoginActivity : AppCompatActivity() {
             if (it) {
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra(KEY_SUMM_NAME, et_summoner_name.text.toString())
-                intent.putExtra(KEY_REGION, et_region.selectedItem.toString())
+                intent.putExtra(KEY_REGION, selectedItem)
                 startActivity(intent)
             }
         })

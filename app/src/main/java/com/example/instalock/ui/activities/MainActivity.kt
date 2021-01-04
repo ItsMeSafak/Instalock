@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity(){
                     findNavController(R.id.nav_host_fragment).navigate(R.id.allChampionsFragment)
                 }
                 R.id.nav_live_game -> {
-
+                    findNavController(R.id.nav_host_fragment).navigate(R.id.liveGameFragment)
                 }
                 R.id.nav_log_out -> {
                     finishAffinity()

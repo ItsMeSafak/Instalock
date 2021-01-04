@@ -21,7 +21,6 @@ class MyMatchHistoryAdapter(matches: ArrayList<Match>) : GenericRVAdapter<Match>
                 val deaths = participantMe.stats.deaths.toString()
                 val assists = participantMe.stats.assists.toString()
 
-                val gameMode = it.mode.toString()
                 launch(Dispatchers.Main) {
                     Glide.with(viewHolder.itemView.context).load(imageUrl)
                         .into(viewHolder.itemView.iv_card_c_icon)
@@ -31,7 +30,7 @@ class MyMatchHistoryAdapter(matches: ArrayList<Match>) : GenericRVAdapter<Match>
                             R.string.kda,
                             kills, deaths, assists
                         )
-                    viewHolder.itemView.tv_card_third.text = gameMode
+                    viewHolder.itemView.tv_card_third.text = it.coreData.mode.toString()
                 }
             }
         }
