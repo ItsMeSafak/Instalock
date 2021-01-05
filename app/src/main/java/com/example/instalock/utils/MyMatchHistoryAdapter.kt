@@ -21,6 +21,8 @@ class MyMatchHistoryAdapter(matches: ArrayList<Match>) : GenericRVAdapter<Match>
                 val deaths = participantMe.stats.deaths.toString()
                 val assists = participantMe.stats.assists.toString()
 
+                val isWinner = participantMe.stats.isWinner
+
                 launch(Dispatchers.Main) {
                     Glide.with(viewHolder.itemView.context).load(imageUrl)
                         .into(viewHolder.itemView.iv_card_c_icon)
@@ -31,6 +33,11 @@ class MyMatchHistoryAdapter(matches: ArrayList<Match>) : GenericRVAdapter<Match>
                             kills, deaths, assists
                         )
                     viewHolder.itemView.tv_card_third.text = it.coreData.mode.toString()
+                    viewHolder.itemView.tv_card_win.apply {
+                        text = if (isWinner) "VICTORY" else "DEFEAT"
+                        setTextColor(if (isWinner) viewHolder.itemView.resources.getColor(R.color.colorGreen)
+                        else viewHolder.itemView.resources.getColor(R.color.colorRed))
+                    }
                 }
             }
         }
