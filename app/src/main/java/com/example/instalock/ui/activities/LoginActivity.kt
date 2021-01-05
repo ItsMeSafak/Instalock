@@ -2,6 +2,7 @@ package com.example.instalock.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
@@ -47,19 +48,21 @@ class LoginActivity : AppCompatActivity() {
         btn_login.setOnClickListener {
             pb_searching.visibility = View.VISIBLE
             iv_heimerdonger.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rotation))
-            if (et_summoner_name.text.isNotBlank() && selectedItem != "nothing") {
-                try {
-                    summonerViewModel.getSummoner(
-                        et_summoner_name.text.toString(),
-                        selectedItem
-                    )
-                } catch (ex: Exception) {
-                    ex.printStackTrace()
-                }
+            Log.d("hoi", selectedItem)
+            if (!et_summoner_name_text.text.isNullOrBlank() && selectedItem != "nothing") {
+                summonerViewModel.getSummoner(
+                    et_summoner_name_text.text.toString(),
+                    selectedItem
+                )
             } else {
                 clearSearching()
-                Snackbar.make(btn_login, "Please fill in your summoner name", Snackbar.LENGTH_LONG)
-                    .show()
+                if (et_summoner_name_text.text.isNullOrBlank()) {
+                    Snackbar.make(btn_login, getString(R.string.fill_name), Snackbar.LENGTH_LONG)
+                        .show()
+                } else {
+                    Snackbar.make(btn_login, getString(R.string.fill_region), Snackbar.LENGTH_LONG)
+                        .show()
+                }
             }
         }
 
@@ -72,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
         summonerViewModel.succes.observe(this, Observer {
             if (it) {
                 val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra(KEY_SUMM_NAME, et_summoner_name.text.toString())
+                intent.putExtra(KEY_SUMM_NAME, et_summoner_name_text.text.toString())
                 intent.putExtra(KEY_REGION, selectedItem)
                 startActivity(intent)
             }

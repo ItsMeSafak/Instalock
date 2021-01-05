@@ -31,8 +31,9 @@
         android:id="@+id/tab_layout_champion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorBackground"
+        app:tabIndicatorColor="@color/colorAccent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_full_name"
         app:tabTextColor="@color/colorWhite">
@@ -69,6 +70,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/colorRed"
+        app:itemTextColor="@color/colorWhite"
         app:itemIconTint="@color/colorWhite"
         app:menu="@menu/menu_back"
         app:layout_constraintBottom_toBottomOf="parent"

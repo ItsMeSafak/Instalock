@@ -54,11 +54,13 @@ class PChampionsFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     adapter.notifyDataSetChanged()
                     pb_loading.visibility = View.INVISIBLE
-                    if (listofMastery.count() <= 0) {
-                        Snackbar.make(rv_masteries, R.string.no_mastery, Snackbar.LENGTH_LONG).show()
-                    }
                 }
             }
+        })
+
+        summonerViewModel.failed.observe(viewLifecycleOwner, Observer {
+            pb_loading.visibility = View.INVISIBLE
+            Snackbar.make(rv_masteries, it, Snackbar.LENGTH_LONG).show()
         })
     }
 

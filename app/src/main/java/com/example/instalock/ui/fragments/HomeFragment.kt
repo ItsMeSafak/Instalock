@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -48,6 +47,7 @@ class HomeFragment : Fragment() {
     private fun observe() {
         summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
             GlobalScope.launch(Dispatchers.IO) {
+                val url = it.profileIcon.image.url
                 val summonerName = it.coreData.name
                 val region = it.region.tag
                 val level = it.level
@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
                 SummonerViewModel.summonerName = it.name
                 SummonerViewModel.summonerId = it.id
                 launch(Dispatchers.Main) {
-                    Glide.with(requireContext()).load(it.profileIcon.coreData.image.full).into(iv_profile_icon)
+                    Glide.with(requireContext()).load(url).into(iv_profile_icon)
                     tv_summoner_name.text = summonerName
                     tv_region.text = getString(R.string.p_region, region)
                     tv_level.text = level.toString()
@@ -66,7 +66,6 @@ class HomeFragment : Fragment() {
 
         summonerViewModel.failed.observe(viewLifecycleOwner, Observer {
             Snackbar.make(iv_profile_icon, it, Snackbar.LENGTH_LONG)
-                .setBackgroundTint(getColor(requireContext(), R.color.colorRed))
                 .show()
         })
     }

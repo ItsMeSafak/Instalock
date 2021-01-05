@@ -48,6 +48,7 @@ class PMatchHistoryFragment : Fragment() {
         summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
             summonerViewModel.getMatches(it)
         })
+
         summonerViewModel.matchData.observe(viewLifecycleOwner, Observer {
             GlobalScope.launch(Dispatchers.IO) {
                 listOfMatches.clear()
@@ -55,11 +56,13 @@ class PMatchHistoryFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     adapter.notifyDataSetChanged()
                     pb_loading_matches.visibility = View.INVISIBLE
-                    if (listOfMatches.count() <= 0) {
-                        Snackbar.make(rv_matches, R.string.no_matches, Snackbar.LENGTH_LONG).show()
-                    }
                 }
             }
+        })
+
+        summonerViewModel.failed.observe(viewLifecycleOwner, Observer {
+            pb_loading_matches.visibility = View.INVISIBLE
+            Snackbar.make(rv_matches, it, Snackbar.LENGTH_LONG).show()
         })
     }
 

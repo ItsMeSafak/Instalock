@@ -1,6 +1,5 @@
 package com.example.instalock.data
 
-import android.util.Log
 import com.example.instalock.exceptions.*
 import com.example.instalock.models.LiveGame
 import com.example.instalock.models.MyObject
@@ -48,7 +47,7 @@ class Repository {
                             it?.summoner?.id.equals(meAsSummoner.id)
                         }
                     val myTeam = meAsPlayer.team
-                    val myTeamplayers = myTeam.participants
+                    val myTeamplayers = myTeam.participants.filter { it != meAsPlayer}
                     val enemyTeam: List<Player> = if (myTeam.side == Side.BLUE) {
                         CurrentMatch.forSummoner(meAsSummoner).get().redTeam.participants
                     } else {
@@ -81,31 +80,46 @@ class Repository {
     }
 
     suspend fun getMasteries(summoner: Summoner): List<ChampionMastery> {
-        return withContext(Dispatchers.IO) {
-            ChampionMasteries.forSummoner(summoner).get().take(LIMIT_CHAMPS)
+        try {
+            return withContext(Dispatchers.IO) {
+                val masteries = ChampionMasteries.forSummoner(summoner).get().take(LIMIT_CHAMPS)
+                if (masteries.isNotEmpty()) masteries else throw MasteriesNotFound("You haven't mastered any champion! Weak...")
+            }
+        } catch (ex: MasteriesNotFound) {
+            throw MasteriesNotFound("You haven't mastered any champion! Weak...")
         }
     }
 
     suspend fun getMatches(summoner: Summoner): List<Match> {
-        return withContext(Dispatchers.IO) {
-            summoner.matchHistory().get().take(LIMIT_MATCHES)
+        try {
+            return withContext(Dispatchers.IO) {
+                val matches = summoner.matchHistory().get().take(LIMIT_MATCHES)
+                if (matches.isNotEmpty()) matches else throw MatchesNotFound("You haven't played any matches lately.")
+            }
+        } catch (ex: MasteriesNotFound) {
+            throw MatchesNotFound("You haven't played any matches lately.")
         }
     }
 
     suspend fun getChampions(): List<Champion> {
         try {
             return withContext(Dispatchers.IO) {
-                Champions
-                    .withRegion(SummonerViewModel.region).get()
+                val champions = Champions.withRegion(SummonerViewModel.region).get()
+                if (champions.isNotEmpty()) champions else throw ChampionsNotFound("Something went wrong while fetching all champions.")
             }
-        } catch (ex: FetchingChampionsFailed) {
-            throw FetchingChampionsFailed("Something went wrong while fetching all champions")
+        } catch (ex: ChampionsNotFound) {
+            throw ChampionsNotFound("Something went wrong while fetching all champions.")
         }
     }
 
     suspend fun getDetailChampion(championName: String): Champion {
-        return withContext(Dispatchers.IO) {
-            Champion.named(championName).withRegion(SummonerViewModel.region).get()
+        try {
+            return withContext(Dispatchers.IO) {
+                val champion = Champion.named(championName).withRegion(SummonerViewModel.region).get()
+                champion ?: throw ChampionDetailNotFound("Oh no... Couldn't find the champ you were looking for.")
+            }
+        } catch (ex: ChampionDetailNotFound) {
+            throw ChampionDetailNotFound("Oh no... Couldn't find the champ you were looking for.")
         }
     }
 }
