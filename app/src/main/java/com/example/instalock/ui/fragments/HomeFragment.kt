@@ -15,10 +15,7 @@ import com.example.instalock.utils.TabAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
- import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.fragment_home.*
 import java.lang.Exception
 
 class HomeFragment : Fragment() {
@@ -37,7 +34,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initTabs()
         try {
-            summonerViewModel.getSummoner(activity?.intent?.getStringExtra(KEY_SUMM_NAME)!!, activity?.intent?.getStringExtra(KEY_REGION)!!)
+            summonerViewModel.getSummoner(
+                activity?.intent?.getStringExtra(KEY_SUMM_NAME)!!,
+                activity?.intent?.getStringExtra(KEY_REGION)!!
+            )
             observe()
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -46,22 +46,14 @@ class HomeFragment : Fragment() {
 
     private fun observe() {
         summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
-            GlobalScope.launch(Dispatchers.IO) {
-                val url = it.profileIcon.image.url
-                val summonerName = it.coreData.name
-                val region = it.region.tag
-                val level = it.level
-                SummonerViewModel.region = it.region
-                SummonerViewModel.summonerName = it.name
-                SummonerViewModel.summonerId = it.id
-                launch(Dispatchers.Main) {
-                    Glide.with(requireContext()).load(url).into(iv_profile_icon)
-                    tv_summoner_name.text = summonerName
-                    tv_region.text = getString(R.string.p_region, region)
-                    tv_level.text = level.toString()
-                    pb_loading.visibility = View.INVISIBLE
-                }
-            }
+            SummonerViewModel.region = it.region
+            SummonerViewModel.summonerName = it.name
+            SummonerViewModel.summonerId = it.id
+            Glide.with(requireContext()).load(it.image).into(iv_profile_icon)
+            tv_summoner_name.text = it.name
+            tv_region.text = getString(R.string.p_region, it.region.tag)
+            tv_level.text = it.level.toString()
+            pb_loading.visibility = View.INVISIBLE
         })
 
         summonerViewModel.failed.observe(viewLifecycleOwner, Observer {

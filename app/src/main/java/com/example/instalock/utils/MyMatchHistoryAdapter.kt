@@ -2,43 +2,30 @@ package com.example.instalock.utils
 
 import com.bumptech.glide.Glide
 import com.example.instalock.R
-import com.merakianalytics.orianna.types.core.match.Match
+import com.example.instalock.models.MYMatch
 import kotlinx.android.synthetic.main.item_card.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-class MyMatchHistoryAdapter(matches: ArrayList<Match>) : GenericRVAdapter<Match>(matches) {
+class MyMatchHistoryAdapter(matches: ArrayList<MYMatch>) : GenericRVAdapter<MYMatch>(matches) {
 
-    override fun bind(item: Match?, viewHolder: ViewHolder) {
-        GlobalScope.launch(Dispatchers.IO) {
-            item?.let {
-                val participantMe = item.participants[0]
-                val imageUrl = participantMe.champion.skins[0].splashImageURL
-                val championName = participantMe.champion.name
-
-                val kills = participantMe.stats.kills.toString()
-                val deaths = participantMe.stats.deaths.toString()
-                val assists = participantMe.stats.assists.toString()
-
-                val isWinner = participantMe.stats.isWinner
-
-                launch(Dispatchers.Main) {
-                    Glide.with(viewHolder.itemView.context).load(imageUrl)
-                        .into(viewHolder.itemView.iv_card_c_icon)
-                    viewHolder.itemView.tv_card_champion.text = championName
-                    viewHolder.itemView.tv_card_second.text =
-                        viewHolder.itemView.resources.getString(
-                            R.string.kda,
-                            kills, deaths, assists
-                        )
-                    viewHolder.itemView.tv_card_third.text = it.coreData.mode.toString()
-                    viewHolder.itemView.tv_card_win.apply {
-                        text = if (isWinner) "VICTORY" else "DEFEAT"
-                        setTextColor(if (isWinner) viewHolder.itemView.resources.getColor(R.color.colorGreen)
-                        else viewHolder.itemView.resources.getColor(R.color.colorRed))
-                    }
-                }
+    override fun bind(item: MYMatch?, viewHolder: ViewHolder) {
+        item?.let {
+            Glide.with(viewHolder.itemView.context).load(item.championPlayed.imageURL)
+                .into(viewHolder.itemView.iv_card_c_icon)
+            viewHolder.itemView.tv_card_champion.text = item.championPlayed.name
+            viewHolder.itemView.tv_card_second.text =
+                viewHolder.itemView.resources.getString(
+                    R.string.kda,
+                    item.kills.toString(),
+                    item.deaths.toString(),
+                    item.assists.toString()
+                )
+            viewHolder.itemView.tv_card_third.text = item.mode
+            viewHolder.itemView.tv_card_win.apply {
+                text = if (item.isWinner) "VICTORY" else "DEFEAT"
+                setTextColor(
+                    if (item.isWinner) viewHolder.itemView.resources.getColor(R.color.colorGreen)
+                    else viewHolder.itemView.resources.getColor(R.color.colorRed)
+                )
             }
         }
     }

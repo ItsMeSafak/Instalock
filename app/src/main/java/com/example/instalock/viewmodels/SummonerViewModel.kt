@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.instalock.exceptions.MasteriesNotFound
 import com.example.instalock.exceptions.MatchesNotFound
 import com.example.instalock.exceptions.SummonerNotFound
+import com.example.instalock.models.MYMastery
+import com.example.instalock.models.MYMatch
+import com.example.instalock.models.MYSummoner
 import com.example.instalock.models.MyObject
 import com.merakianalytics.orianna.types.common.Region
 import com.merakianalytics.orianna.types.core.championmastery.ChampionMastery
@@ -24,20 +27,20 @@ class SummonerViewModel(application: Application) : MainViewModel(application) {
         var summonerId: String? = null
     }
 
-    private val _summonerData: MutableLiveData<Summoner> = MutableLiveData()
-    val summonerData: LiveData<Summoner>
+    private val _summonerData: MutableLiveData<MYSummoner> = MutableLiveData()
+    val summonerData: LiveData<MYSummoner>
         get() = _summonerData
 
     private val _summonerData2: MutableLiveData<MyObject> = MutableLiveData()
     val summonerData2: LiveData<MyObject>
         get() = _summonerData2
 
-    private val _masteryData: MutableLiveData<List<ChampionMastery>> = MutableLiveData()
-    val masteryData: LiveData<List<ChampionMastery>>
+    private val _masteryData: MutableLiveData<List<MYMastery>> = MutableLiveData()
+    val masteryData: LiveData<List<MYMastery>>
         get() = _masteryData
 
-    private val _matchData: MutableLiveData<List<Match>> = MutableLiveData()
-    val matchData: LiveData<List<Match>>
+    private val _matchData: MutableLiveData<List<MYMatch>> = MutableLiveData()
+    val matchData: LiveData<List<MYMatch>>
         get() = _matchData
 
     fun getSummoner(summonerName: String, regionName: String) {
@@ -65,11 +68,11 @@ class SummonerViewModel(application: Application) : MainViewModel(application) {
         }
     }
 
-    fun getMasteries(summoner: Summoner) {
+    fun getMasteries() {
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 try {
-                    _masteryData.value = repository.getMasteries(summoner)
+                    _masteryData.value = repository.getMasteries()
                 } catch (ex: MasteriesNotFound) {
                     _failed.value = ex.message
                 }
@@ -77,11 +80,11 @@ class SummonerViewModel(application: Application) : MainViewModel(application) {
         }
     }
 
-    fun getMatches(summoner: Summoner) {
+    fun getMatches() {
         viewModelScope.launch {
             withContext(Dispatchers.Main){
                 try {
-                    _matchData.value = repository.getMatches(summoner)
+                    _matchData.value = repository.getMatches()
                 } catch (ex: MatchesNotFound) {
                     _failed.value = ex.message
                 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instalock.R
+import com.example.instalock.models.MYMastery
 import com.example.instalock.utils.MyMasteryAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -21,7 +22,7 @@ import kotlinx.coroutines.launch
 class PChampionsFragment : Fragment() {
 
     private val summonerViewModel: SummonerViewModel by activityViewModels()
-    private val listofMastery: ArrayList<ChampionMastery> = arrayListOf()
+    private val listofMastery: ArrayList<MYMastery> = arrayListOf()
     private val adapter: MyMasteryAdapter = MyMasteryAdapter(listofMastery)
 
     override fun onCreateView(
@@ -44,9 +45,7 @@ class PChampionsFragment : Fragment() {
     }
 
     private fun observe() {
-        summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
-            summonerViewModel.getMasteries(it)
-        })
+        summonerViewModel.getMasteries()
         summonerViewModel.masteryData.observe(viewLifecycleOwner, Observer {
             GlobalScope.launch(Dispatchers.IO) {
                 listofMastery.clear()

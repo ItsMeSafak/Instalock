@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.instalock.R
+import com.example.instalock.models.MYMatch
 import com.example.instalock.utils.MyMatchHistoryAdapter
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 class PMatchHistoryFragment : Fragment() {
 
     private val summonerViewModel: SummonerViewModel by activityViewModels()
-    private val listOfMatches: ArrayList<Match> = arrayListOf()
+    private val listOfMatches: ArrayList<MYMatch> = arrayListOf()
     private val adapter: MyMatchHistoryAdapter = MyMatchHistoryAdapter(listOfMatches)
 
     override fun onCreateView(
@@ -45,10 +46,7 @@ class PMatchHistoryFragment : Fragment() {
     }
 
     private fun observe() {
-        summonerViewModel.summonerData.observe(viewLifecycleOwner, Observer {
-            summonerViewModel.getMatches(it)
-        })
-
+        summonerViewModel.getMatches()
         summonerViewModel.matchData.observe(viewLifecycleOwner, Observer {
             GlobalScope.launch(Dispatchers.IO) {
                 listOfMatches.clear()
