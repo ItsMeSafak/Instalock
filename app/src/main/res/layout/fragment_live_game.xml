@@ -165,7 +165,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20sp"
                 android:padding="10dp"
-                android:text="@string/refresh" />
+                android:text="@string/refresh"
+                android:textSize="20sp"
+                app:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorWhite" />
 
         </LinearLayout>
 
