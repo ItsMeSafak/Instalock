@@ -20,13 +20,32 @@ const val LIMIT_MATCHES = 10
 const val LIMIT_CHAMPS = 5
 
 class Repository {
+    var summonerName: String? = null
+    var region: String? = null
+
     suspend fun getSummoner(summonerName: String, regionName: String): MYSummoner {
+        this.summonerName = summonerName
+        this.region = regionName
         try {
             return withContext(Dispatchers.IO) {
                 val summoner: Summoner? = Summoner.named(summonerName)
                     .withRegion(Region.values().filter { region -> region.tag == regionName }[0])
                     .get()
                 if (summoner?.id != null) MYSummoner.convertToMySummoner(summoner) else
+                    throw SummonerNotFound("Oops! We couldn't find the summoner you were looking for.")
+            }
+        } catch (ex: SummonerNotFound) {
+            throw SummonerNotFound("Oops! We couldn't find the summoner you were looking for.")
+        }
+    }
+
+    suspend fun getSummmonerInitial(): Summoner {
+        try {
+            return withContext(Dispatchers.IO) {
+                val summoner: Summoner? = Summoner.named(summonerName)
+                    .withRegion(Region.values().filter { regionObj -> regionObj.tag == region }[0])
+                    .get()
+                if (summoner?.id != null) summoner else
                     throw SummonerNotFound("Oops! We couldn't find the summoner you were looking for.")
             }
         } catch (ex: SummonerNotFound) {
@@ -81,9 +100,7 @@ class Repository {
     suspend fun getMasteries(): List<MYMastery> {
         try {
             return withContext(Dispatchers.IO) {
-                val meAsSummoner: Summoner = Summoner.named(SummonerViewModel.summonerName!!)
-                    .withRegion(SummonerViewModel.region)
-                    .get()
+                val meAsSummoner: Summoner = getSummmonerInitial()
                 val masteries = ChampionMasteries.forSummoner(meAsSummoner).get().take(LIMIT_CHAMPS)
                 if (masteries.isNotEmpty()) MYMastery.convertToMyMastery(masteries)
                 else throw MasteriesNotFound("You haven't mastered any champion! Weak...")
@@ -96,9 +113,7 @@ class Repository {
     suspend fun getMatches(): List<MYMatch> {
         try {
             return withContext(Dispatchers.IO) {
-                val meAsSummoner: Summoner = Summoner.named(SummonerViewModel.summonerName!!)
-                    .withRegion(SummonerViewModel.region)
-                    .get()
+                val meAsSummoner: Summoner = getSummmonerInitial()
                 val matches = meAsSummoner.matchHistory().get().take(LIMIT_MATCHES)
                 if (matches.isNotEmpty()) MYMatch.convertToMyMatch(matches)
                 else throw MatchesNotFound("You haven't played any matches lately.")

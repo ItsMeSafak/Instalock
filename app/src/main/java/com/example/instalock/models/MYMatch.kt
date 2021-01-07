@@ -1,5 +1,6 @@
 package com.example.instalock.models
 
+import android.util.Log
 import com.merakianalytics.orianna.types.core.match.Match
 
 data class MYMatch(
@@ -20,12 +21,13 @@ data class MYMatch(
             return newList
         }
 
-        fun convertToSingleMatch(match: Match): MYMatch {
+        private fun convertToSingleMatch(match: Match): MYMatch {
             val thisParticipant = MYPlayer.convertToSinglePlayer(match.participants[0])
+            Log.d("pog", match.toJSON())
             return MYMatch(
                 thisParticipant,
                 thisParticipant.champion,
-                match.coreData.mode,
+                match.mode.name,
                 match.participants[0].stats.kills,
                 match.participants[0].stats.deaths,
                 match.participants[0].stats.assists,
