@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.example.instalock.BuildConfig
 import com.example.instalock.R
 import com.example.instalock.viewmodels.SummonerViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -28,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        Orianna.setRiotAPIKey(BuildConfig.RIOT_API_KEY)
+        Orianna.setRiotAPIKey("KEY")
         initView()
     }
 
