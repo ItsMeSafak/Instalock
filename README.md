@@ -15,3 +15,11 @@ Instead i used the Orianna library. It's an awesome Java library with build in c
 **Github link:** https://github.com/meraki-analytics/orianna \
 **Documentation:** https://orianna.readthedocs.io/en/latest/ \
 **Java docs:** https://javadoc.io/doc/com.merakianalytics.orianna/orianna/latest/index.html 
+
+## Images
+
+![Login screen](https://github.com/ItsMeSafak/Instalock/blob/master/img/1.PNG)
+![Home screen](https://github.com/ItsMeSafak/Instalock/blob/master/img/2.PNG)
+![Champions screen](https://github.com/ItsMeSafak/Instalock/blob/master/img/3.PNG)
+![Champion detailed](https://github.com/ItsMeSafak/Instalock/blob/master/img/4.PNG)
+![Live game](https://github.com/ItsMeSafak/Instalock/blob/master/img/5.PNG)
